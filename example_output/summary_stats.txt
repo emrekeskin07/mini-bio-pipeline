@@ -1,0 +1,30 @@
+        SUMMARY STATISTICS
+=======================================================
+
+  Read Length (bp)
+    Mean   : 1038.24
+    Median : 547.00
+    Std    : 2995.92
+    Min    : 86.00
+    Max    : 686155.00
+    N50    : 1761
+
+  GC Content (%)
+    Mean   : 53.00
+    Median : 53.53
+    Std    : 7.10
+    Min    : 14.97
+    Max    : 73.40
+
+  Mean Quality Score (Q)
+    Mean   : 17.90
+    Median : 17.31
+    Std    : 8.27
+    Min    : 2.75
+    Max    : 38.84
+=======================================================
+
+[INFO] Saved → results/plots/gc_content_distribution.png
+[INFO] Saved → results/plots/read_length_distribution.png
+[INFO] Saved → results/plots/quality_score_distribution.png
+[INFO] All plots generated successfully.
