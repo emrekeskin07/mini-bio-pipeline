@@ -73,3 +73,7 @@ Summary: 81011 reads analysed. Median quality Q17.3 with 77.7% above Q10. GC con
 
 ## QC Dashboard
 
+
+## QC Dashboard
+
+![QC Dashboard](example_output/plots/dashboard.png)
