@@ -70,3 +70,6 @@ Conclusion: Data quality is sufficient to proceed with alignment using Minimap2.
 See email_to_professor.md for the full report addressed to Professor Kilic.
 
 Summary: 81011 reads analysed. Median quality Q17.3 with 77.7% above Q10. GC content clean at 53%. Recommendation: proceed to alignment with Minimap2.
+
+## QC Dashboard
+
