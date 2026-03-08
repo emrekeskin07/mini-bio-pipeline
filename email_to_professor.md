@@ -1,7 +1,7 @@
 # Email to Professor Kılıç
 
-**To:** Prof. Dr. Kılıç  
-**From:** Bioinformatics Analysis Team  
+**To:** Prof. Dr. Kılıç
+**From:** Bioinformatics Analysis Team
 **Subject:** Sequencing Data Quality Report — barcode77
 
 ---
@@ -14,11 +14,15 @@ I hope this message finds you well. We have completed the initial quality analys
 
 ## What We Did
 
-We processed your sequencing file through an automated pipeline with two main steps:
+We processed your sequencing file through a fully automated and reproducible pipeline. All steps were executed within isolated Conda environments managed by Nextflow, ensuring that every result can be independently verified and reproduced by any researcher using the same pipeline.
 
-1. **Overall QC:** We used *NanoStat*, a tool designed specifically for long-read sequencing data, to generate a comprehensive quality report.
+The pipeline consisted of three steps:
 
-2. **Per-Read Analysis:** We calculated three measurements for each of the 81,011 reads in your file: read length, GC content, and mean quality score. We then generated visual charts showing the distribution of these metrics.
+1. **Overall QC with NanoStat:** We used NanoStat — a tool specifically optimised for Oxford Nanopore Technology (ONT) long-read data — to generate a comprehensive quality overview of the entire dataset.
+
+2. **Per-Read Statistical Analysis:** We wrote a custom Python script that examined each of the 81,011 reads individually, calculating read length, GC content, and mean Phred quality score. Results were saved in a structured CSV file for full transparency.
+
+3. **Visual Reporting:** We generated a QC dashboard combining five plots — GC content distribution, read length distributions (linear and log scale), quality score histogram, and violin plot — alongside a summary statistics table. This dashboard is attached to this report.
 
 ---
 
@@ -26,43 +30,45 @@ We processed your sequencing file through an automated pipeline with two main st
 
 ### Read Lengths
 - **Median read length: 547 bp**, mean 1,038 bp
-- **N50: 1,761 bp** — meaning half of all sequenced bases come from reads longer than 1,761 bp
-- The longest single read was 686,155 bp — this is normal for Nanopore sequencing
-- The distribution is right-skewed (many short reads, some very long ones), which is typical for Oxford Nanopore data
+- **N50: 1,761 bp** — meaning that 50% of all sequenced bases come from reads longer than 1,761 bp, which is a key indicator of library quality
+- The longest single read was 686,155 bp — ultra-long reads like this are a hallmark of Nanopore sequencing and are highly valuable for genome assembly
+- The distribution is right-skewed: most reads are short, but a tail of very long reads pulls the mean upward. This is entirely expected for ONT data and is not a cause for concern
 
 > ✅ Read lengths are within the expected range for Nanopore long-read sequencing.
 
 ### GC Content
 - **Mean GC: 53.0%, Median: 53.5%**
-- The distribution follows a clean bell curve centred around 53%
-- No signs of contamination from other organisms
+- The distribution follows a clean, symmetric bell curve centred around 53%
+- A skewed or bimodal GC distribution would suggest contamination from another organism — we see no such signal here
 
-> ✅ GC content looks healthy and consistent with a single-organism sample.
+> ✅ GC content is healthy and consistent with a single-organism, uncontaminated sample.
 
 ### Read Quality
 - **Mean quality: Q17.9, Median: Q17.3**
-- **77.7% of reads (62,978 out of 81,011) are above Q10** — the standard threshold for Nanopore data
-- Only 8.5% of reads exceed Q15, which is typical for older Nanopore chemistry
+- **77.7% of reads (62,978 out of 81,011) exceed the Q10 threshold** — the standard minimum for Nanopore data
+- Only 8.5% of reads exceed Q15, which is typical for R9.4.1 or earlier Nanopore chemistry
+- The violin plot reveals a bimodal quality distribution, suggesting two populations of reads — this is common and does not affect alignment significantly
 
-> ✅ Quality is sufficient for downstream alignment and analysis.
+> ✅ Overall quality is sufficient for downstream alignment and variant calling.
 
 ---
 
 ## Recommendation
 
-Based on these results, **we recommend proceeding to alignment.** The data quality is good:
+Based on these results, **we recommend proceeding to alignment.** The data meets all standard quality criteria for Nanopore long-read sequencing:
 
 - ✅ 77.7% of reads pass the Q10 threshold
-- ✅ GC content is clean and uniform  
+- ✅ GC content is clean and uniform
 - ✅ Read lengths are suitable for long-read alignment
+- ✅ Pipeline is fully reproducible via Conda + Nextflow
 
 **Suggested next steps:**
-1. Filter out reads below Q7 and shorter than 200 bp (minor cleanup)
-2. Run alignment using **Minimap2** — the standard aligner for Nanopore data
-3. Assess mapping rate and coverage depth
+1. Light filtering: remove reads below Q7 and shorter than 200 bp
+2. Align to reference genome using **Minimap2** (`-ax map-ont` preset)
+3. Assess mapping rate, coverage depth, and depth uniformity
 
-Please find the full QC dashboard attached. We are ready to proceed with alignment at your direction.
+The full QC dashboard and NanoStat report are available in the GitHub repository. We are ready to proceed at your direction.
 
-Best regards,  
-Bioinformatics Analysis Team  
+Best regards,
+Bioinformatics Analysis Team
 Massive Bioinformatics
